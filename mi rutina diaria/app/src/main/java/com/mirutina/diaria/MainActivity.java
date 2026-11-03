@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
                 LinearLayout.LayoutParams cp=lp(-1,-2);cp.setMargins(0,0,0,dp(10));content.addView(card,cp);
             }
             gap(content,9);TextView notifications=text("🔔  Recordatorios 10 minutos antes de cada actividad",13,muted,false);add(content,notifications);gap(content,12);
-            Button alarm=new Button(this);alarm.setText("Configurar alarmas y recordatorios");alarm.setTextAllCaps(false);alarm.setOnClickListener(v->{if(Build.VERSION.SDK_INT>=31){if(!((AlarmManager)getSystemService(ALARM_SERVICE)).canScheduleExactAlarms())startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,Uri.parse("package:"+getPackageName())));else Scheduler.schedule(this);}else Scheduler.schedule(this);});add(content,alarm);
+            Button alarm=new Button(this);alarm.setText("Configurar alarmas y recordatorios");alarm.setOnClickListener(v->{if(Build.VERSION.SDK_INT>=31){if(!((AlarmManager)getSystemService(ALARM_SERVICE)).canScheduleExactAlarms())startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,Uri.parse("package:"+getPackageName())));else Scheduler.schedule(this);}else Scheduler.schedule(this);});add(content,alarm);
         }catch(Exception e){add(content,text("No se pudo cargar el horario: "+e.getMessage(),14,muted,false));}
     }
     String key(int index){Calendar c=Calendar.getInstance();int diff=selectedDay-today();c.add(Calendar.DAY_OF_YEAR,diff);String identity="";try{JSONArray item=week.getJSONArray(selectedDay).getJSONArray(index);identity=item.optString(0)+"|"+item.optString(2);}catch(Exception ignored){}return selectedDay+"-"+identity+"-"+c.get(Calendar.YEAR)+"-"+c.get(Calendar.DAY_OF_YEAR);}
